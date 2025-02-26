@@ -20,3 +20,10 @@ install.packages("RColorBrewer")
 #visunet
 install.packages("DT")
 vis <- visunet(ros.P4$main)
+
+
+#visuarc
+visuArc(vis,'Asian',feature='UTS2_Th17_48')
+
+
+#UTS2_Th17_48
