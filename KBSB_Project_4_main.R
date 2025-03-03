@@ -375,6 +375,64 @@ if (nrow(x1) > 0) {
 }
 
 # -------------------------------
+# Reactome Pathway Enrichment Analysis
+# -------------------------------
+# Perform Reactome pathway enrichment
+genes_reactome <- enrichPathway(gene = unique(gene_entrez$ENTREZID),
+                                organism = "human", 
+                                pvalueCutoff = 0.05, 
+                                readable = TRUE)
+
+# Print Reactome results
+print("Reactome Pathway Enrichment Results:")
+print(genes_reactome)
+
+# -------------------------------
+# Reactome Pathway Visualization
+# -------------------------------
+barplot(genes_reactome, showCategory = 10, title = "Top 10 Enriched Reactome Pathways")
+dotplot(genes_reactome, showCategory = 10, title = "Dotplot of Enriched Reactome Pathways")
+
+########################################3
+# -------------------------------
+# KEGG Pathway Enrichment Analysis
+# -------------------------------
+genes_KEGG <- enrichKEGG(gene = unique(gene_entrez$ENTREZID),
+                         organism = "hsa", # Human genes
+                         pvalueCutoff = 0.05)
+
+# Print KEGG results
+print("KEGG Pathway Enrichment Results:")
+print(genes_KEGG)
+
+# -------------------------------
+# Visualizing KEGG Pathway Enrichment
+# -------------------------------
+barplot(genes_KEGG, showCategory = 10, title = "KEGG Pathway Enrichment")
+dotplot(genes_KEGG, showCategory = 10, title = "KEGG Dotplot")
+
+
+# -------------------------------
+# Disease Associations from DisGeNET
+# -------------------------------
+genes_disease <- enrichDO(
+  gene = unique(gene_entrez$ENTREZID),  # Use the unique Entrez IDs from KEGG analysis
+  ont = "DO",  # Disease Ontology
+  pvalueCutoff = 0.05,  # Significance threshold
+  readable = TRUE  # Convert gene IDs to gene symbols
+)
+
+# View results
+print("Disease Ontology Enrichment Results:")
+print(genes_disease)
+
+# -------------------------------
+# Visualization of Disease Enrichment
+# -------------------------------
+dotplot(genes_disease, showCategory = 10, title = "Disease Ontology Enrichment")
+barplot(genes_disease, showCategory = 10, title = "Disease Ontology Enrichment")
+
+# -------------------------------
 # Highlighting Most Enriched Genes in VisuNet
 # -------------------------------
 genes_top_GO <- strsplit(genes_GO_df[which.max(genes_GO_df$Count), "geneID"], "/")[[1]]
